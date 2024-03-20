@@ -22,9 +22,9 @@ class BinExp {
         while (n>0) {
             if ((n&1)==1) {
                 res = res*a;
-                a = a*a;
-                n>>=1;
             }
+            a = a*a;
+            n>>=1;
         }
         return res;
     }
