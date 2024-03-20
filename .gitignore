@@ -1,6 +1,7 @@
 #
 .DS_Store
 lib/
+lib/*
 
 # Compiled class file
 *.class

@@ -12,6 +12,10 @@
  */
 
 class BinExp {
+    public static void main (String[] args) {
+        System.out.println("Hola");
+    }
+
     public int binExp (int a, int n) {
         if (n==0) {
             return 1;
@@ -23,6 +27,4 @@ class BinExp {
             return res * res;
         }
     }
-
-    @
  }
