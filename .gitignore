@@ -2,6 +2,9 @@
 .DS_Store
 lib/
 lib/*
+*/lib
+*/lib/*
+.vscode/*
 
 # Compiled class file
 *.class
