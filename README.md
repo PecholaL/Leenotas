@@ -10,4 +10,4 @@ branch kf: 粉师正在卷毕设，TBD
 
 ## Thanks
 勤劳的贝大爷  
-branch sch: 特别嘉宾Schrodingho
+特别嘉宾Schrodingho
