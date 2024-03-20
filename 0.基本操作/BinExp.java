@@ -6,20 +6,35 @@
  *  注意该序列中每个元素都是前一个元素的平方
  */
 
-/*
- * 使用递归来解决
- *  递归终止条件：
- */
-
-
- import org.junit.Test;
-
 class BinExp {
     public static void main (String[] args) {
-        System.out.println("Hola");
+        int a = 3;
+        int n = 2;
+        int res = binExp(a, n);
+        System.out.println(a+"^{"+n+"}="+res);
     }
 
-    public int binExp (int a, int n) {
+    /*
+    * 非递归
+    */
+    public static int binExp (int a, int n) {
+        int res = 1;
+        while (n>0) {
+            if ((n&1)==1) {
+                res = res*a;
+                a = a*a;
+                n>>=1;
+            }
+        }
+        return res;
+    }
+
+
+    /*
+    * 使用递归来解决
+    *  递归终止条件：
+    */
+    public static int binExp_rec (int a, int n) {
         if (n==0) {
             return 1;
         }
