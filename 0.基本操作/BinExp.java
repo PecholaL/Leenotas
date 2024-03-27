@@ -9,7 +9,7 @@
 class BinExp {
     public static void main (String[] args) {
         int a = 2;
-        int n = 10;
+        int n = 12;
         int res = binExp_rec(a, n);
         System.out.println(a+"^{"+n+"}="+res);
     }
@@ -33,17 +33,22 @@ class BinExp {
 
     /*
     * 使用递归来解决
-    *  递归终止条件：
+    *  递归终止条件：指数n的二进制所有“1”位右移完成，即n=0时
+    *  每次递归调用右移一位后的指数
+    *  https://oi-wiki.org/math/binary-exponentiation/
     */
     public static int binExp_rec (int a, int n) {
         if (n==0) {
             return 1;
         }
         int res = binExp (a, n>>1);
-        if (n>>1==1) {
+        if ((n&1)==1) {
             return res * res * a;
         } else {
             return res * res;
         }
     }
  }
+
+
+//  Pechola注：善用移位运算，这样看上去很有气势。
