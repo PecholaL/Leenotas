@@ -8,9 +8,9 @@
 
 class BinExp {
     public static void main (String[] args) {
-        int a = 3;
-        int n = 2;
-        int res = binExp(a, n);
+        int a = 2;
+        int n = 10;
+        int res = binExp_rec(a, n);
         System.out.println(a+"^{"+n+"}="+res);
     }
 
@@ -39,8 +39,8 @@ class BinExp {
         if (n==0) {
             return 1;
         }
-        int res = binExp (a, n/2);
-        if (n%2==1) {
+        int res = binExp (a, n>>1);
+        if (n>>1==1) {
             return res * res * a;
         } else {
             return res * res;
