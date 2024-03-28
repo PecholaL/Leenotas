@@ -5,6 +5,7 @@ lib/*
 */lib
 */lib/*
 .vscode/*
+练手/*
 
 # Compiled class file
 *.class
