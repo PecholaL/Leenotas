@@ -1,11 +1,9 @@
 #
 .DS_Store
 lib/
-lib/*
 */lib
-*/lib/*
-.vscode/*
-练手/*
+.vscode/
+tmp/
 
 # Compiled class file
 *.class
