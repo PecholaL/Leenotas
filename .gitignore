@@ -3,7 +3,6 @@
 lib/
 */lib
 .vscode/
-tmp/
 
 # Compiled class file
 *.class
