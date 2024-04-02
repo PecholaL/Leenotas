@@ -9,8 +9,40 @@ public class DayDayUp {
         DayDayUp t = new DayDayUp();
         
         // TEST
-        int[] a = new int[] {7,1,5,3,6,4};
-        System.out.println(t.maxProfit(a));
+        String a = " as./!d./.dsa";
+        System.out.println(t.isPalindrome(a));
+    }
+
+
+    /* 4.2
+     * 验证回文串（忽视特殊字符及大小写）
+     * 又是对语法和包装类和Collection类方法的考量
+     * StringBuffer, Character, String
+     */
+    public boolean isPalindrome(String s) {
+        StringBuffer sb = new StringBuffer(s.length());
+        for (int i=0; i<s.length(); ++i) {
+            Character ch = s.charAt(i);
+            if (Character.isLetterOrDigit(ch)) {
+                sb.append(Character.toLowerCase(ch));
+            }
+        }
+        String s_ = sb.toString();
+        if (s_.length()==0) {
+            return true;
+        } else {
+            int ptrB = 0;
+            int ptrE = s_.length()-1;
+            while (ptrB<=ptrE) {
+                if (s_.charAt(ptrB)!=s_.charAt(ptrE)) {
+                    return false;
+                } else {
+                    ++ptrB;
+                    --ptrE;
+                }
+            }
+            return true;
+        }
     }
 
 
