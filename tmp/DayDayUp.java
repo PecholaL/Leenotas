@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class DayDayUp {
@@ -9,8 +10,87 @@ public class DayDayUp {
         DayDayUp t = new DayDayUp();
         
         // TEST
-        String a = " as./!d./.dsa";
-        System.out.println(t.isPalindrome(a));
+        int[] a = new int[]{1,2,3,4,2,9,3,44,1,5,4,7,7,8,8,9,5};
+        System.out.println(t.singleNumber_xor(a));
+        System.out.println(12^7);
+    }
+
+    /* 4.7
+     * 判断环形链表（链表中是否存在环）
+     * 想到了可以用快慢指针，但以前接触的快慢指针速度是一样的 :(
+     */
+    //* 链表结点数据结构：
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) {
+            val = x;
+            next = null;
+     }
+    public boolean hasCycle(ListNode head) {
+        if (head==null || head.next==null) {
+            return false; 
+        } else {
+            HashSet<ListNode> hSet = new HashSet();
+            while (head.next!=null) {
+                if (hSet.contains(head.next)) {
+                    return true;
+                } else {
+                    hSet.add(head.next);
+                    head = head.next;
+                }
+            }
+            return false;
+        }
+    }
+    public boolean hasCycle_sf(ListNode head) {
+        if (head==null || head.next==null) {
+            return false;
+        } else {
+            ListNode fast = head;
+            ListNode slow = head;
+            while (fast!=null && fast.next!=null) {
+                fast = fast.next.next;
+                slow = slow.next;
+                if (fast==slow) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+
+    /* 4.2
+     * 只出现一次的元素（只有一个元素出现一次，其余出现两次）
+     * 练习了哈哈希集，然后看到O(n)时间+O(1)空间的方法是异或运算
+     * xor不同为1，相同为0
+     */
+    public int singleNumber(int[] nums) {
+        if (nums.length==1) {
+            return nums[0];
+        } else {
+            HashSet<Integer> hSet = new HashSet<Integer>();
+            for (int i: nums) {
+                if (hSet.contains(i)) {
+                    hSet.remove(i);
+                } else {
+                    hSet.add(i);
+                }
+            }
+            int res = 0;
+            for (int i: hSet) {
+                res = i;
+            }
+            return res;
+        }
+    }
+    public int singleNumber_xor(int[] nums) {
+        int res = 0;
+        for (int i : nums) {
+            res = res^i;
+        }
+        return res;
     }
 
 
