@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 public class DayDayUp {
     // main() for test
@@ -10,10 +14,134 @@ public class DayDayUp {
         DayDayUp t = new DayDayUp();
         
         // TEST
-        int[] a = new int[]{1,2,3,4,2,9,3,44,1,5,4,7,7,8,8,9,5};
-        System.out.println(t.singleNumber_xor(a));
-        System.out.println(12^7);
+        int a = 701;
+        System.out.println(t.convertToTitle(a));
     }
+
+    /* 4.9
+     * Excel列表名称
+     * A-1, B-2, ... , Z-26, AA-27, AB-28, ...
+     * 相当有趣，没有0的26进制
+     */
+    public String convertToTitle(int columnNumber) {
+        StringBuffer sBuffer = new StringBuffer();
+        while (columnNumber != 0) {
+            int i = columnNumber%26;
+            if (i==0) {
+                sBuffer.append('Z');
+                --columnNumber;
+            } else {
+                sBuffer.append((char)((int)('A')+i-1));
+            }
+            columnNumber = columnNumber/26;
+        }
+        sBuffer.reverse();
+        return sBuffer.toString();
+    }
+
+
+    /* 4.9
+     * 二叉树后序遍历
+     */
+    public List<Integer> postorderTraversal_r(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) {
+            return res;
+        } else {
+            trav_post(root, res);
+            return res;
+        }
+    }
+    public void trav_post(TreeNode node, List<Integer> res) {
+        if (node==null) {
+            return;
+        } else {
+            trav_post(node.left, res);
+            trav_post(node.right, res);
+            res.add(node.val);
+        }
+    }
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        if (root == null) {
+            return res;
+        }
+        TreeNode prev = null;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (root.right == null || root.right == prev) {
+                res.add(root.val);
+                prev = root;
+                root = null;
+            } else {
+                stack.push(root);
+                root = root.right;
+            }
+        }
+        return res;
+    }
+
+
+    /* 4.8
+     * 二叉树前序遍历
+     * 递归EZ
+     */
+    //* 树结点
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode() {}
+        TreeNode(int val) { this.val = val; }
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public List<Integer> preorderTraversal_r(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root==null) {
+            return res;
+        } else {
+            trav(root, res);
+        }
+        return res;
+    }
+    public void trav(TreeNode node, List<Integer> res) {
+        if (node==null) {
+            return;
+        } else {
+            res.add(node.val);
+            trav(node.left, res);
+            trav(node.right, res);
+        }
+    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        if (root==null) {
+            return res;
+        }
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode tmp = stack.pop();
+            res.add(tmp.val);
+            if (tmp.right!=null) {
+                stack.push(tmp.right);
+            } 
+            if (tmp.left!=null) {
+                stack.push(tmp.left);
+            }
+        }
+        return res;
+    }
+
 
     /* 4.7
      * 判断环形链表（链表中是否存在环）
@@ -26,6 +154,7 @@ public class DayDayUp {
         ListNode(int x) {
             val = x;
             next = null;
+        }
      }
     public boolean hasCycle(ListNode head) {
         if (head==null || head.next==null) {
