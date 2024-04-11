@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -18,6 +20,93 @@ public class DayDayUp {
         System.out.println(t.convertToTitle(a));
     }
 
+    /* 4.11
+     * 多数元素
+     * 返回数组中出现次数大于n/2的元素
+     * 练习哈HashMap先
+     * 更好的方法有排序（排序后下表为n/2的元素），分治，随机
+     */
+    public int majorityElement(int[] nums) {
+        Map<Integer, Integer> counts = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            if (!counts.containsKey(num)) {
+                counts.put(num, 1);
+            } else {
+                counts.put(num, counts.get(num)+1);
+            }
+        }
+        Map.Entry<Integer, Integer> resEntry = null;
+        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+            if (resEntry==null || entry.getValue()>resEntry.getValue()) {
+                resEntry = entry;
+            }
+        }
+        return resEntry.getKey();
+    }
+
+
+    /* 4.11
+     * 相交链表
+     * 返回相交结点
+     * 自己的方法写了一大段，看到题解解决不同长度问题可以只遍历一遍
+     * 两个指针分别从两个head开始往后，当较短链表的指针指向null时
+     * 将其指向还没走完的链表（较长者）的头部，两个指针继续走直到较长链表走完
+     * 将走完较长链表的指针指向较短链表head，此时两个指针距离尾部的距离相同
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA==null || headB==null) {
+            return null;
+        } else {
+            int lenA = 0;
+            int lenB = 0;
+            ListNode ptrA = new ListNode(0);
+            ListNode ptrB = new ListNode(0);
+            for (ptrA=headA; ptrA!=null; ptrA=ptrA.next) {
+                ++lenA;
+            }
+            for (ptrB=headB; ptrB!=null; ptrB=ptrB.next) {
+                ++lenB;
+            }
+            ptrA = headA;
+            ptrB = headB;
+            if (lenA>lenB) {
+                int diff = lenA - lenB;
+                int i = 0;
+                while (i<diff) {
+                    ptrA = ptrA.next;
+                    ++i;
+                }
+            } else {
+                int diff = lenB - lenA;
+                int i = 0;
+                while (i<diff) {
+                    ptrB = ptrB.next;
+                    ++i;
+                }
+            }
+            boolean flag = false;
+            ListNode res = new ListNode(0);
+            while (ptrA!=null) {
+                if (ptrA==ptrB) {
+                    if (!flag) {
+                        res = ptrA;
+                    }
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+                ptrA = ptrA.next;
+                ptrB = ptrB.next;
+            }
+            if (flag) {
+                return res;
+            } else {
+                return null;
+            }
+        }
+    }
+
+ 
     /* 4.9
      * Excel列表名称
      * A-1, B-2, ... , Z-26, AA-27, AB-28, ...
