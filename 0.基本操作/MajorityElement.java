@@ -14,6 +14,31 @@
 
 public class MajorityElement {
     public static void main (String[] args) {
+        boolean flag = false;  // 当前是否有flag占领者
+        int currentHolder = 0;  // 当前flag占领者
+        int currentHolderNum = 0;  // 当前占领者数量
+        int [] nums = {1,2,3,4,5,3,3,2,2,1,5,1,4,1,1,2};
 
+        for (int num : nums) {
+            if (!flag) {
+                flag = true;
+                currentHolder = num;
+                ++currentHolderNum;
+            } else {
+                if (num!=currentHolder) {
+                    --currentHolderNum;
+                    if (currentHolderNum==0) {
+                        flag = false;
+                    }
+                } else {
+                    ++currentHolderNum;
+                }
+            }
+        }
+        if (flag) {
+            System.out.println(currentHolder);
+        } else {
+            System.out.println("no majority element");
+        }
     }    
 }
