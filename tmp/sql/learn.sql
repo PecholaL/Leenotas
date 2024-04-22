@@ -6,6 +6,6 @@ FROM
     Employee AS a,
     Employee AS b
 WHERE 
-    a.ManagerId = b.ManagerId
+    a.ManagerId = b.id
         AND a.Salary > b.Salary
 ;
