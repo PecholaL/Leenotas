@@ -17,8 +17,26 @@ public class DayDayUp {
         
         // TEST
         int a = 701;
-        System.out.println(t.convertToTitle(a));
+        String s = "ABB";
+        System.out.println(t.titleToNumber(s));
     }
+
+    /* 4.18
+     * Excel列表序号
+     */
+    public int titleToNumber(String columnTitle) {
+        String revColumnTitle = new StringBuffer(columnTitle).reverse().toString();
+        int base = 1;
+        int res = 0;
+        for (int i=0; i<revColumnTitle.length(); ++i) {
+            char ch = revColumnTitle.charAt(i);
+            int val = (int)(ch-'A'+1) * base;
+            res = res + val;
+            base = base * 26;
+        }
+        return res;
+    }
+
 
     /* 4.11
      * 多数元素
