@@ -1,3 +1,44 @@
+-- 5.7
+-- 获取没有与指定公司的所有订单有关的销售员姓名
+SELECT s.name
+FROM salesperson s
+WHERE 
+    s.sales_id NOT IN 
+    (
+        SELECT o.sales_id
+        FROM 
+            orders o
+                LEFT JOIN
+            company c ON o.com_id=c.com_id
+            WHERE c.name="RED"
+    )
+;
+
+-- 判断三角形
+Select *, 
+    IF(x+y>z and x+z>y and y+z>x, "Yes", "No") AS triangle
+FROM triangle
+;
+
+
+-- 5.6
+-- 大的国家，满足面积或人口要求的国家即为大国
+SELECT name, population, area
+FROM World
+WHERE area>=3000000 OR population>=25000000
+;
+
+-- 选课人数超过5的课程
+SELECT class
+FROM
+(
+    SELECT class, COUNT(*) AS count
+    FROM Courses
+    GROUP BY class
+ ) AS statistic
+WHERE count>=5
+;
+
 -- 4.25
 -- 所有用户第一次登录的日期
 SELECT a.player_id, MIN(a.event_date) AS 'first_login'
