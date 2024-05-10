@@ -20,6 +20,21 @@ Select *,
 FROM triangle
 ;
 
+-- 表中只出现过一次的整数中的最大整数
+SELECT MAX(num) AS num
+FROM
+(
+    SELECT num
+    FROM
+    (
+        SELECT num, COUNT(*) AS count
+        FROM
+        MyNumbers
+        GROUP BY num
+    ) AS statistic
+    WHERE count=1
+) AS single
+;
 
 -- 5.6
 -- 大的国家，满足面积或人口要求的国家即为大国
@@ -65,7 +80,7 @@ WHERE referee_id IS null or referee_id!=2
 SELECT customer_number
 FROM Orders
 GROUP BY customer_number
-ORDER BY COUNT(*) DESC
+ORDER BY COUNT(*) DESC -- 升序为ASC
 LIMIT 1
 ;
 -- 研究了半天笨办法，语法不厚道
