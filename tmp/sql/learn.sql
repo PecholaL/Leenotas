@@ -1,3 +1,14 @@
+-- 5.23
+-- 查询结果的质量及占比
+SELECT 
+    query_name, 
+    ROUND(AVG(rating/position), 2) AS quality, 
+    ROUND(SUM(IF(rating<3, 1, 0)) * 100 / COUNT(*), 2) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name
+HAVING query_name IS NOT null
+;
+
 -- 5.7
 -- 获取没有与指定公司的所有订单有关的销售员姓名
 SELECT s.name
