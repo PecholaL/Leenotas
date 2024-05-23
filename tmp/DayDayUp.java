@@ -21,6 +21,7 @@ public class DayDayUp {
         System.out.println(t.titleToNumber(s));
     }
 
+
     /* 4.18
      * Excel列表序号
      */
