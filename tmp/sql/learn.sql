@@ -36,6 +36,7 @@ FROM
 ) AS single
 ;
 
+
 -- 5.6
 -- 大的国家，满足面积或人口要求的国家即为大国
 SELECT name, population, area
@@ -53,6 +54,7 @@ FROM
  ) AS statistic
 WHERE count>=5
 ;
+
 
 -- 4.25
 -- 所有用户第一次登录的日期
@@ -124,6 +126,7 @@ WHERE
     datediff(a.recordDate, b.recordDate)=1 AND a.Temperature > b.Temperature
 ;
 
+
 -- 4.20
 -- 重复的电子邮箱
 -- 创建子表statistic
@@ -147,6 +150,7 @@ FROM
     Person AS p2
 WHERE p1.Email = p2.Email AND p1.Id > p2.Id
 ;
+
 
 -- 4.18
 -- 超过经理收入的员工
