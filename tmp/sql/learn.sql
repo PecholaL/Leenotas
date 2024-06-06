@@ -1,3 +1,14 @@
+-- 5.23
+-- 查询结果的质量及占比
+SELECT 
+    query_name, 
+    ROUND(AVG(rating/position), 2) AS quality, 
+    ROUND(SUM(IF(rating<3, 1, 0)) * 100 / COUNT(*), 2) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name
+HAVING query_name IS NOT null
+;
+
 -- 5.7
 -- 获取没有与指定公司的所有订单有关的销售员姓名
 SELECT s.name
@@ -36,6 +47,7 @@ FROM
 ) AS single
 ;
 
+
 -- 5.6
 -- 大的国家，满足面积或人口要求的国家即为大国
 SELECT name, population, area
@@ -53,6 +65,7 @@ FROM
  ) AS statistic
 WHERE count>=5
 ;
+
 
 -- 4.25
 -- 所有用户第一次登录的日期
@@ -124,6 +137,7 @@ WHERE
     datediff(a.recordDate, b.recordDate)=1 AND a.Temperature > b.Temperature
 ;
 
+
 -- 4.20
 -- 重复的电子邮箱
 -- 创建子表statistic
@@ -147,6 +161,7 @@ FROM
     Person AS p2
 WHERE p1.Email = p2.Email AND p1.Id > p2.Id
 ;
+
 
 -- 4.18
 -- 超过经理收入的员工

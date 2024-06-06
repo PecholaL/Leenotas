@@ -24,6 +24,7 @@ public class DayDayUp {
     }
 
 
+<<<<<<< HEAD
     /* 6.6
      * 颠倒二进制位
      */
@@ -37,6 +38,8 @@ public class DayDayUp {
         return res;
     }
 
+=======
+>>>>>>> f3e5e7d2425c773f4cd55dc2e749080d02a8485c
     /* 4.18
      * Excel列表序号
      */
