@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
+import javax.swing.tree.TreeNode;
+
 public class DayDayUp {
     // main() for test
     public static void main(String [] args) {
@@ -19,6 +21,20 @@ public class DayDayUp {
         int a = 701;
         String s = "ABB";
         System.out.println(t.titleToNumber(s));
+    }
+
+
+    /* 6.6
+     * 颠倒二进制位
+     */
+    public reverseBits(int n) {
+        int res = 0;
+        for (int i=0; i<32; ++i) {
+            int p = n & 1; // 获得当前最低位
+            n = n>>1;
+            res = res | (p<<(31-i)); // 将p移位到目标位，即左移31-i位
+        }
+        return res;
     }
 
     /* 4.18
