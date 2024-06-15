@@ -17,6 +17,7 @@ public class LongestSubstringLength {
         if (s.length()==0) {
             return 0;
         }
+        // 注意要使用包装类Character用于泛型
         Set<Character> hset = new HashSet<>();
         // 右指针ptr，左指针i
         int len = s.length();
