@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.swing.tree.TreeNode;
@@ -23,6 +24,31 @@ public class DayDayUp {
         System.out.println(t.titleToNumber(s));
     }
 
+
+    /* 6.15
+     * 无重复字符的最长子串的长度
+     */
+    public int lenghthOfLongestSubstring(String s) {
+        if (s.length()==0) {
+            return 0;
+        }
+        Set<Character> hset = new HashSet<>();
+        // 右指针ptr，左指针i
+        int len = s.length();
+        int ptr = -1, res = 0;
+        for (int i=0; i<len; ++i) {
+            if (i!=0) {
+                hset.remove(s.charAt(i-1));
+            }
+            while (ptr+1<len && !hset.contains(s.charAt(ptr+1))) {
+                hset.add(s.charAt(ptr+1));
+                ++ptr;
+            }
+            res = Math.max(res, ptr-i+1);
+        }
+        return res;
+    }
+    // 头一天刷了这道题，第二天在联洲的机试中碰到，记得方法但写不出来:(
 
     
     /* 6.6
