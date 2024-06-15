@@ -30,6 +30,7 @@ public class LongestSubstringLength {
                 hset.remove(s.charAt(i-1));
             }
             // 先确定右指针将指向的下一个元素是否在集合中
+            // ！注意左指针右移后不用再将右指针退回到左指针的位置
             while (ptr+1<len && !hset.contains(s.charAt(ptr+1))) {
                 hset.add(s.charAt(ptr+1));
                 ++ptr;
