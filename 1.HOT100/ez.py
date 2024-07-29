@@ -25,3 +25,24 @@ class Solution:
         for key in dict:
             res.append(dict[key])
         return res
+
+    # 双指针移动0
+    def moveZeroes(self, nums: List[int]) -> None:
+        if len(nums) == 0:
+            return
+        j = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[j], nums[i] = nums[i], nums[j]
+                j += 1
+
+    # 盛最多水的容器
+    def maxArea(self, height: List[int]) -> int:
+        i, j = 0, len(height) - 1
+        res = 0
+        while i != j:
+            s = (j - i) * min(height[i], height[j])
+            if s > res:
+                res = s
+            (i, j) = (i + 1, j) if height[i] < height[j] else (i, j - 1)
+        return res
