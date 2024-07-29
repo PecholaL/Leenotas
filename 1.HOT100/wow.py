@@ -23,3 +23,35 @@ class Solution:
                 len_dict[num - left] = tmp_len
                 len_dict[num + right] = tmp_len
         return res
+
+    # 三数之和
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        if len(nums) < 3:
+            return res
+        nums = sorted(nums)
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                break
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            # 双指针分别指向nums[i]之后的数组两端
+            l, r = i + 1, len(nums) - 1
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
+                # 注意即使刚好和为0，还可能存在其他的lr与nums[i]和为0
+                if s == 0:
+                    res.append([nums[i], nums[l], nums[r]])
+                    # 以下两个while循环将指针分别指向下一个不同的数，为了防止结果出现重复
+                    while l < r and nums[l] == nums[l + 1]:
+                        l += 1
+                    while l < r and nums[r] == nums[r - 1]:
+                        r -= 1
+                    l, r = l + 1, r - 1
+                # 和小于0则需要将左指针右移
+                elif s < 0:
+                    l += 1
+                # 和大于0则需要将右指针左移
+                else:
+                    r -= 1
+        return res
