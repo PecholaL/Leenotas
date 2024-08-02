@@ -53,3 +53,17 @@ class Solution:
                 else:
                     r -= 1
         return res
+
+    # 160.相交链表
+    def getIntersectionNode(self, headA, headB):
+        # 重点在于消除两链表的长度差
+        # 两个指针分别从两个链表头开始移动，使短链表指针移到末尾后又指向长链表的头
+        # 指向长链表的指针移长度差个结点后到达末尾又指向短链表头，由此消除长度差
+        # 两个指针在两个链表上继续移动直到指向相同结点
+        # 不存在相同结点时则都指向尾部None后相等退出循环并返回
+        ptrA = headA
+        ptrB = headB
+        while ptrA != ptrB:
+            ptrA = ptrA.next if ptrA != None else headB
+            ptrB = ptrB.next if ptrB != None else headA
+        return ptrA
