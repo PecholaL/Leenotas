@@ -1,7 +1,6 @@
 #
 .DS_Store
 lib/
-*/lib
 .vscode/
 
 # Compiled class file
