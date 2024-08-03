@@ -47,3 +47,35 @@ class Solution:
                 res = s
             (i, j) = (i + 1, j) if height[i] < height[j] else (i, j - 1)
         return res
+
+    # 206.反转链表
+    def reverseList(self, head):
+        ptr1, ptr2 = None, head
+        while ptr2 != None:
+            tmp = ptr2.next
+            ptr2.next = ptr1
+            ptr1 = ptr2
+            ptr2 = tmp
+        return ptr1
+
+    # 141.142.判断链表存在环，存在环则返回环的起始结点
+    def hasCycle(self, head) -> bool:
+        if head is None or head.next is None:
+            return False
+        ptr1, ptr2 = head, head  # ptr1,2分别为慢,快指针
+        while ptr2 is not None:
+            ptr1 = ptr1.next
+            if ptr2.next is None:
+                break
+            ptr2 = ptr2.next.next
+            if ptr1 == ptr2:
+                return True
+                # 当需要返回环的起始结点时
+                # 从两个指针相遇的时刻开始，新建一个指针从头结点开始同步移动
+                #   直到和慢指针相遇，相遇处即为环的起始结点
+                # 推导过程可通过对头结点到环起点、环起点到快慢指针相遇点赋参数进行关系推导
+                # ptr3 = head
+                # while ptr1 != ptr3:
+                #     ptr1, ptr3 = ptr1.next, ptr3.next
+                # return ptr3
+        return False  # return None

@@ -67,3 +67,21 @@ class Solution:
             ptrA = ptrA.next if ptrA != None else headB
             ptrB = ptrB.next if ptrB != None else headA
         return ptrA
+
+    # 234.回文链表
+    # 虽然是简单题，但递归方法的递归过程有点意思，空间复杂度还是和粗暴方法同O(N)
+    # 简单的粗暴方法：将链表前半部分存储到数组中再比较
+    # 这个递归比较震撼，递归到最后一个结点，出栈回退时头结点指针同步后移
+    def isPalindrome(self, head) -> bool:
+        self.ptr = head
+
+        def palindromeCheck(cnode=head):
+            if cnode is not None:
+                if not palindromeCheck(cnode.next):
+                    return False
+                if self.ptr.val != cnode.val:
+                    return False
+                self.ptr = self.ptr.next
+            return True
+
+        return palindromeCheck()
