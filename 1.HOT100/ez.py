@@ -4,13 +4,7 @@ from typing import List
 class Solution:
 
     # 1.两数之和
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        dict = {}
-        for i in range(len(nums)):
-            if target - nums[i] in dict:
-                return [i, dict[target - nums[i]]]
-            dict[nums[i]] = i
-        return []
+    # 略
 
     # 49.字母异位词分组
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -50,6 +44,7 @@ class Solution:
 
     # 206.反转链表
     def reverseList(self, head):
+        # 值得注意的是ptr1(左指针)的初始化
         ptr1, ptr2 = None, head
         while ptr2 != None:
             tmp = ptr2.next
@@ -79,3 +74,45 @@ class Solution:
                 #     ptr1, ptr3 = ptr1.next, ptr3.next
                 # return ptr3
         return False  # return None
+
+    # 21.合并有序链表
+    # 递归方法
+    def mergeTwoLists(self, l1, l2):
+        if l1 is None:
+            return l2
+        elif l2 is None:
+            return l1
+        elif l1.val < l2.val:
+            l1.next = self.mergeTwoLists(l1.next, l2)
+            return l1
+        else:  # l2.val<=l1.val
+            l2.next = self.mergeTwoLists(l1, l2.next)
+            return l2
+
+    # 2.链表中的两数相加
+    # 略
+
+    # 19.删除链表倒数第n个结点
+    def removeNthFromEnd(self, head, n: int):
+        # 在头结点之前加入一个辅助结点可以避免对特殊情况（删除头结点）的单独处理
+        pre = ListNode()  # type: ignore
+        pre.next = head
+        ptr1, ptr2 = pre, pre
+        # 这里注意快慢指针应该相距n+1
+        # 使得快指针移动到末尾None时，慢指针指向待删除结点的前一个结点
+        for _ in range(n + 1):
+            ptr2 = ptr2.next
+        while ptr2 is not None:
+            ptr1, ptr2 = ptr1.next, ptr2.next
+        ptr1.next = ptr1.next.next
+        return pre.next
+
+    # 24.两两交换链表中的结点
+    # 递归方法
+    def swapPairs(self, head):
+        if head is None or head.next is None:
+            return head
+        newHead = head.next
+        head.next = self.swapPairs(newHead.next)
+        newHead.next = head
+        return newHead
