@@ -116,3 +116,24 @@ class Solution:
         head.next = self.swapPairs(newHead.next)
         newHead.next = head
         return newHead
+
+    # 25.K个一组翻转链表
+    # 优美的递归，居然一次过了
+    def reverseKGroup(self, head, k):
+        ptrH = head
+        for _ in range(k):
+            if ptrH:
+                ptrH = ptrH.next
+            else:
+                return head
+        newHead, newTail = self.reverseK(head, k)
+        newTail.next = self.reverseKGroup(ptrH, k)
+        return newHead
+
+    def reverseK(self, head, k):
+        ptr1, ptr2 = None, head
+        for _ in range(k):
+            ptr3 = ptr2.next
+            ptr2.next = ptr1
+            ptr1, ptr2 = ptr2, ptr3
+        return ptr1, head
