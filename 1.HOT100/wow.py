@@ -85,3 +85,24 @@ class Solution:
             return True
 
         return palindromeCheck()
+
+    # 3.无重复长度的最长子串
+    # 双指针滑动窗口，但是注意指针j不用每次回退到i的位置
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res = 0
+        hset = set()
+        i, j = 0, 0
+        while i < len(s) - res:
+            # 这里注意，窗口滑到下一个位置，需要取出上一个窗口起点的元素
+            if i != 0:
+                hset.remove(s[i - 1])
+            # j始终不需要回退，如果重复元素在窗口中靠右，窗口也会滑动到这个重复元素处（一直break）
+            while j < len(s):
+                if s[j] in hset:
+                    break
+                else:
+                    hset.add(s[j])
+                    j += 1
+            res = max(res, len(hset))
+            i += 1
+        return res

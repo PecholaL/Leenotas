@@ -6,11 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-
-import javax.swing.tree.TreeNode;
 
 public class DayDayUp {
     // main() for test
@@ -19,9 +16,9 @@ public class DayDayUp {
         DayDayUp t = new DayDayUp();
         
         // TEST
-        int a = 701;
-        String s = "ABB";
-        System.out.println(t.titleToNumber(s));
+        // int a = 701;
+        // String s = "ABB";
+        // System.out.println(t.titleToNumber(s));
     }
 
 
@@ -48,13 +45,12 @@ public class DayDayUp {
         }
         return res;
     }
-    // 头一天刷了这道题，第二天在联洲的机试中碰到，记得方法但写不出来:(
 
     
     /* 6.6
      * 颠倒二进制位
      */
-    public reverseBits(int n) {
+    public int reverseBits(int n) {
         int res = 0;
         for (int i=0; i<32; ++i) {
             int p = n & 1; // 获得当前最低位
@@ -311,7 +307,7 @@ public class DayDayUp {
         if (head==null || head.next==null) {
             return false; 
         } else {
-            HashSet<ListNode> hSet = new HashSet();
+            HashSet<ListNode> hSet = new HashSet<>();
             while (head.next!=null) {
                 if (hSet.contains(head.next)) {
                     return true;

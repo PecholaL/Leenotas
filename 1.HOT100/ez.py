@@ -137,3 +137,42 @@ class Solution:
             ptr2.next = ptr1
             ptr1, ptr2 = ptr2, ptr3
         return ptr1, head
+
+    # 138.随机链表的复制
+    # 略，用哈希表存储旧-新链表结点对应关系
+
+    # 148.排序链表
+    # 略，归并排序
+
+    # 146.LRU缓存
+    # 略
+
+    # 23.合并K个升序链表
+    # 略，两两合并即可
+
+    # 3.无重复字符的最长子串
+
+    # 438.找到字符串中所有字母异位词
+    # 滑动窗口，自己用dict写的题解不够简洁，官方题解用长为26的数组记录当前窗口和pattern串
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        res = []
+        s_len, p_len = len(s), len(p)
+        if s_len < p_len:
+            return res
+        # 相比用Counter()创建字典计数不用判断是否存在key
+        s_count = [0] * 26
+        p_count = [0] * 26
+        for i in range(p_len):
+            s_count[ord(s[i]) - 97] += 1
+            p_count[ord(p[i]) - 97] += 1
+        if s_count == p_count:
+            res.append(0)
+        # 注意这里的循环次数，不是s_len - p_len + 1
+        # 因为这个循环的意思是第i次循环抛弃s中的第i位而往后移一位
+        # 结果也是相应的i+1
+        for i in range(s_len - p_len):
+            s_count[ord(s[i]) - 97] -= 1
+            s_count[ord(s[i + p_len]) - 97] += 1
+            if s_count == p_count:
+                res.append(i + 1)
+        return res
