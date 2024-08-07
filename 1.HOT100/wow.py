@@ -106,3 +106,34 @@ class Solution:
             res = max(res, len(hset))
             i += 1
         return res
+
+    # 76.最小覆盖子串
+    def minWindow(self, s: str, t: str) -> str:
+        import collections
+
+        cnt_t = collections.Counter(t)
+        res_i, res_j = 0, 0
+        i, j = 0, 0
+        flag = 0
+        min_length = float("inf")
+        # 起步会一直跳过内层while循环而一直执行外层while直到窗口䏻覆盖t
+        while j < len(s):
+            if s[j] in cnt_t:
+                cnt_t[s[j]] -= 1
+                if cnt_t[s[j]] == 0:
+                    flag += 1
+            j += 1
+            # 窗口能覆盖t后尝试从左边缩短窗口，直到无法覆盖t
+            while flag == len(cnt_t):
+                # 先删去左边不在t中的部分（一直跳过if）
+                if s[i] in cnt_t:
+                    cnt_t[s[i]] += 1
+                    if cnt_t[s[i]] > 0:
+                        flag -= 1
+                    # 记下当前最优解
+                    # （当前最优一定是最左边的元素在t中）
+                    if j - i < min_length:
+                        res_i, res_j = i, j
+                        min_length = j - i
+                i += 1
+        return s[res_i:res_j]

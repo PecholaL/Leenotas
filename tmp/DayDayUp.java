@@ -13,7 +13,7 @@ public class DayDayUp {
     // main() for test
     public static void main(String [] args) {
         System.out.println("_hola_");
-        DayDayUp t = new DayDayUp();
+        // DayDayUp t = new DayDayUp();
         
         // TEST
         // int a = 701;
