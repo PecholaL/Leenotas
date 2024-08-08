@@ -137,3 +137,20 @@ class Solution:
                         min_length = j - i
                 i += 1
         return s[res_i:res_j]
+
+    # 238.除自身以外数组的乘积
+    # 要求不能用除法
+    # 建立前缀和后缀乘积数组，分别存储第i位左边所有元素的乘积和右边所有元素的乘积
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        answer = [0] * len(nums)
+        leftProductList, rightProductList = [1] * len(nums), [1] * len(nums)
+        leftProduct, rightProduct = 1, 1
+        for i, j in zip(range(len(nums)), range(len(nums) - 1, -1, -1)):
+            leftProductList[i] = leftProduct
+            rightProductList[j] = rightProduct
+            if i < len(nums) - 1 and j > 0:  # 减少不必要计算
+                leftProduct *= nums[i]
+                rightProduct *= nums[j]
+        for i in range(len(answer)):
+            answer[i] = leftProductList[i] * rightProductList[i]
+        return answer

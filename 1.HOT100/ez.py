@@ -176,3 +176,12 @@ class Solution:
             if s_count == p_count:
                 res.append(i + 1)
         return res
+
+    # 53.最大子数组和
+    # 略，动态规划，dp[i]=max(dp[i-1]+nums[i],nums[i])
+
+    # 56.合并区间
+    # 略，先要对区间排序，intervals.sort(key=lambda x: x[0])
+
+    # 41.缺失的第一个正整数
+    # 略，答案的取值范围为[1,len+1]，可借助一个数组进行标记
