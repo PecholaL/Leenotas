@@ -185,3 +185,29 @@ class Solution:
 
     # 41.缺失的第一个正整数
     # 略，答案的取值范围为[1,len+1]，可借助一个数组进行标记
+
+    # 73.矩阵置零
+    # 略
+
+    # 54.螺旋矩阵
+    # 略
+
+    # 48.旋转图像
+    # 略
+
+    # 240.搜索二维矩阵
+    # 矩阵每一行左往右升序，每一列上往下升序
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m, n = len(matrix), len(matrix[0])
+        # 从矩阵右上角开始搜索，搜索区域为左下角的矩阵
+        sx, sy = 0, n - 1
+        while sx < m and sy > -1:
+            if matrix[sx][sy] == target:
+                return True
+            # 如果当前位置比目标小，搜索区域最上边的行可排除
+            elif matrix[sx][sy] < target:
+                sx += 1
+            # 如果当前位置比目标大，搜索区域最右边的列可排除
+            else:  # matrix[sx][sy]>target
+                sy -= 1
+        return False
