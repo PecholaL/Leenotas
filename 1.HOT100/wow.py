@@ -154,3 +154,23 @@ class Solution:
         for i in range(len(answer)):
             answer[i] = leftProductList[i] * rightProductList[i]
         return answer
+
+    # 31.下一个排列
+    def nextPermutation(self, nums: List[int]) -> None:
+        i, j, k = len(nums) - 2, len(nums) - 1, len(nums) - 1
+        # 从尾部开始寻找相邻且前比后小的两数，找到后这两个数之后遍历过的数一定是降序的
+        while i >= 0 and nums[i] >= nums[j]:
+            i, j = i - 1, j - 1
+        # 从尾部的降序序列中从后往前找最小的比nums[i]大的数作为与nums[i]交换的数
+        # 这样可以保证变化幅度尽可能小
+        if i >= 0:
+            while nums[i] >= nums[k]:
+                k -= 1
+            nums[i], nums[k] = nums[k], nums[i]
+        # 交换之后的尾部仍然一定是降序的，将其反转以得到下一个序列
+        for p, q in zip(range(j, len(nums)), range(len(nums) - 1, i, -1)):
+            if p < q:
+                nums[p], nums[q] = nums[q], nums[p]
+            else:
+                break
+        return

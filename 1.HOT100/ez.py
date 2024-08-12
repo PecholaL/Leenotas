@@ -211,3 +211,45 @@ class Solution:
             else:  # matrix[sx][sy]>target
                 sy -= 1
         return False
+
+    # 136.只出现一次的数字
+    # 用异或运算可以做到O(1)的空间
+    def singleNumber(self, nums: List[int]) -> int:
+        from functools import reduce
+
+        # reduce()第一次将集合前两个元素运算，之后每次将上一次的结果和下一个元素运算
+        return reduce(lambda x, y: x ^ y, nums)
+
+    # 169.多数元素
+    # 略，夺旗见基本操作
+
+    # 75.颜色分类
+    # 略
+
+    # 94.二叉树的中序遍历
+    # 略
+
+    # 104.二叉树的最大深度
+    # 略
+
+    # 226.翻转二叉树
+    # 略
+
+    # 101.对称二叉树
+    # 递归的起始调用比较巧妙，将根结点传入两次
+    def isSymmetric(self, root) -> bool:
+        return self.equalLR(root, root)
+
+    def equalLR(self, node1, node2):
+        if node1 is None and node2 is None:
+            return True
+        if node1 is None or node2 is None:
+            return False
+        return (
+            node1.val == node2.val
+            and self.equalLR(node1.left, node2.right)
+            and self.equalLR(node1.right, node2.left)
+        )
+
+    # 543.二叉树的直径
+    # 略，在二叉树最大深度的递归方法中加入最大直径的记录

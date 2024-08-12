@@ -57,3 +57,21 @@ class Solution:
             if i >= 0:
                 res.append(deque[0])
         return res
+
+    # 287.寻找重复数
+    # nums长度为n+1，其中的数均在区间[1,n]内，寻找唯一的重复数（可能重复多次）
+    # 将 0到n共n+1个数 与 nums中的数 建立映射关系。如：
+    # 0 1 2 3 4
+    # 1 3 4 2 2，f(0)=1,f(1)=3...
+    # 可以形成一个带有环的链：0-1-3-2-4-2
+    # 用快慢指针找到相遇点后再找寻环的起点（Floyd判圈算法）
+    def findDuplicate(self, nums: List[int]) -> int:
+        i, j = nums[0], nums[nums[0]]
+        while i != j:
+            i = nums[i]
+            j = nums[nums[j]]
+        res = 0
+        while res != i:
+            res = nums[res]
+            i = nums[i]
+        return res
