@@ -253,3 +253,34 @@ class Solution:
 
     # 543.二叉树的直径
     # 略，在二叉树最大深度的递归方法中加入最大直径的记录
+
+    # 102.二叉树的层序遍历
+    # 略，Python队列：queue = collections.deque()，left = queue.popleft()
+
+    # 108.将有序数组转换为二叉搜索树
+    # 略
+
+    # 98.验证二叉搜索树
+    # 用递归注意结点的值应该在一个区间，而不是只用和父结点比较
+    def isValidBST(self, root) -> bool:
+        def helper(node, lower=float("-inf"), upper=float("inf")) -> bool:
+            if not node:
+                return True
+            val = node.val
+            if val <= lower or val >= upper:
+                return False
+            # 分别判定左右子树是否符合，而不用再单独比较左右子结点的值
+            # 每次递归更新左子树结点的上界和右子树结点的下界
+            if not helper(node.right, val, upper):
+                return False
+            if not helper(node.left, lower, val):
+                return False
+            return True
+
+        return helper(root)
+
+    # 230.二叉搜索树中第k小的元素
+    # 略
+
+    # 199.二叉树的右视图
+    # 略
