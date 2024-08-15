@@ -174,3 +174,32 @@ class Solution:
             else:
                 break
         return
+
+    # 437.二叉树路径和III
+    # 在遍历的过程中记录下当前路径和，并查找是否有与之匹配的前缀路径和使差值为tgt
+    def pathSum(self, root, targetSum: int) -> int:
+        self.preSum = {}  # 记录遍历过的路径和，每种和的数量
+        self.preSum[0] = 1
+        self.targetSum = targetSum
+        return self.trav(root, 0)
+
+    def trav(self, root, curSum):
+        if root is None:
+            return 0
+        res = 0
+        curSum += root.val  # 当前路径和
+        res += (
+            self.preSum[curSum - self.targetSum]  # 寻找是否有合适的前缀路径和
+            if curSum - self.targetSum in self.preSum
+            else 0
+        )
+        # 将当前路径和保存
+        if curSum in self.preSum:
+            self.preSum[curSum] += 1
+        else:
+            self.preSum[curSum] = 1
+        res += self.trav(root.left, curSum)
+        res += self.trav(root.right, curSum)
+        # 遍历完左右子树后会退到父结点，记得将当前路径和的记录减去
+        self.preSum[curSum] -= 1
+        return res

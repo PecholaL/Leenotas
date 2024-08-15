@@ -284,3 +284,41 @@ class Solution:
 
     # 199.二叉树的右视图
     # 略
+
+    # 114.二叉树展开为链表
+    # 按前序遍历顺序，链表使用结点的右指针链接
+    # 按右子树-左子树-根结点的顺序进行递归遍历
+    def __init__(self):
+        self.pre = None
+
+    def flatten(self, root) -> None:
+        if root is None:
+            return
+        self.flatten(root.right)
+        self.flatten(root.left)
+        # 将递归的访问部分改为对指针的修改
+        root.right = self.pre
+        root.left = None
+        self.pre = root
+        return
+
+    # 105.从前序与中序遍历序列构造二叉树
+    # 略
+
+    # 236.二叉树的最近公共祖先
+    def lowestCommonAncestor(self, root, p, q):
+        # 如果找到p或q，或找到末尾找不到，则返回当前结点或None
+        if root is None or root == p or root == q:
+            return root
+        # 在左子树中寻找p或q
+        left = self.lowestCommonAncestor(root.left, p, q)
+        # 在右子树中寻找p或q
+        right = self.lowestCommonAncestor(root.right, p, q)
+        # 在左子树中找不到p或q，则公共祖先结点在右子树中
+        if left is None:
+            return right
+        # 在右子树中找不到p或q，则公共祖先结点在左子树中
+        if right is None:
+            return left
+        # p和q分别在两边子树中，则当前结点为最近公共祖先
+        return root
