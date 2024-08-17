@@ -322,3 +322,9 @@ class Solution:
             return left
         # p和q分别在两边子树中，则当前结点为最近公共祖先
         return root
+
+    # 200.岛屿数量
+    # 略
+
+    # 994.腐烂的橘子
+    # 略

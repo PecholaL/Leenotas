@@ -203,3 +203,21 @@ class Solution:
         # 遍历完左右子树后会退到父结点，记得将当前路径和的记录减去
         self.preSum[curSum] -= 1
         return res
+
+    # 124.二叉树中的最大路径和
+    def maxPathSum(self, root):
+        self.res = float("-inf")
+        self.depth(root)
+        return self.res
+
+    # 递归深度遍历二叉树，记录最大路径和
+    def depth(self, node):
+        if node is None:
+            return 0
+        left = self.depth(node.left)
+        right = self.depth(node.right)
+        # 记录将当前结点左右两边的子树纳入路径时是否可最大
+        self.res = max(self.res, left + right + node.val)
+        # 当前结点的价值：将以该结点为根的子树纳入路径中得到的回报
+        # 由于可以不纳入，即回报为负数时，故取max(val,0)
+        return max(max(left, right) + node.val, 0)
