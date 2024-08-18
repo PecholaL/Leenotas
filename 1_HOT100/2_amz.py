@@ -75,3 +75,25 @@ class Solution:
             res = nums[res]
             i = nums[i]
         return res
+
+    # 84.柱状图中最大矩形
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        res = 0
+        stack = []  # 单调递增栈
+        heights.append(0)
+        for i in range(len(heights)):
+            while stack and heights[stack[-1]] > heights[i]:
+                # 高度取当前栈顶元素高度
+                cur = stack.pop()
+                # 右边界即当前元素的前一个元素（一定满足高度大于等于当前所取高度）
+                # 因为还无法知道当前元素右边有多少能满足高度高于当前元素，
+                # 对右边可能构成更大面积的情况交给后面的遍历访问
+                # 不能直接取栈顶（cur），因为这里while可能循环多次，而当前右边界应固定
+                right = i - 1
+                # 左边界为当前栈顶元素的后一个
+                # 因为当前高度为之前被弹出的栈顶，往左能达到该高度的即为当前栈顶所存下标的下一个
+                # 如果不存在（即栈空），则左边界为0（最左边）
+                left = stack[-1] + 1 if len(stack) > 0 else 0
+                res = max(res, (right - left + 1) * heights[cur])
+            stack.append(i)
+        return res

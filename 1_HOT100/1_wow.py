@@ -248,3 +248,17 @@ class Solution:
                 if ind[cur] == 0:
                     q.append(cur)
         return True if numCourses == 0 else False
+
+    # 739.每日温度
+    # 记录相对于第i天，下一次更高气温出现在几天后
+    # 使用单调栈存储下标，栈顶到栈底下标对应的温度递增
+    # res数组延迟更新，直到对应的下标从栈中弹出才能知道表示下一次最高温度出现
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack = []
+        for i in range(len(temperatures)):
+            while stack and temperatures[i] > temperatures[stack[-1]]:
+                pre_index = stack.pop()
+                res[pre_index] = i - pre_index
+            stack.append(i)
+        return res
