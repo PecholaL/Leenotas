@@ -221,3 +221,30 @@ class Solution:
         # 当前结点的价值：将以该结点为根的子树纳入路径中得到的回报
         # 由于可以不纳入，即回报为负数时，故取max(val,0)
         return max(max(left, right) + node.val, 0)
+
+    # 207.课程表
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        # 建立有向图，使依赖的课程指向当前课程
+        ind = [0] * numCourses  # 存储各课程结点的入度（依赖课程数）
+        adjac = [[] for _ in range(numCourses)]  # 存储各课程的后置课程
+        import collections
+
+        q = collections.deque()
+        for cur, pre in prerequisites:
+            ind[cur] += 1
+            adjac[pre].append(cur)
+        # 找到不需要依赖的所有课程（入度为0）
+        for i in range(numCourses):
+            if ind[i] == 0:
+                q.append(i)
+
+        # 逐步从图中减去这些不需要依赖的课程（表示可以完成）
+        # 并将依赖这门课程的课入度-1（依赖中已完成一个，即依赖少一个）
+        while q:
+            pre = q.popleft()
+            numCourses -= 1
+            for cur in adjac[pre]:
+                ind[cur] -= 1
+                if ind[cur] == 0:
+                    q.append(cur)
+        return True if numCourses == 0 else False
