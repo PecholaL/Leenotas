@@ -262,3 +262,39 @@ class Solution:
                 res[pre_index] = i - pre_index
             stack.append(i)
         return res
+
+    # 4.寻找两个正序数组的中位数
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        m, n = len(nums1), len(nums2)
+        if (m + n) % 2 == 1:
+            return self.findKth(nums1, nums2, (m + n + 1) // 2)
+        else:
+            return (
+                self.findKth(nums1, nums2, (m + n) // 2)
+                + self.findKth(nums1, nums2, (m + n) // 2 + 1)
+            ) / 2
+
+    # 从两个正序数组找到第k位
+    # 比较两个数组中的第k//2位
+    # 由此可排除第k//2位较小的数组的前k//2位（一定比整体的第k位小）
+    # 根据排除的数量减小k的值
+    def findKth(self, nums1, nums2, k):
+        m, n = len(nums1), len(nums2)
+        i1, i2 = 0, 0
+        while True:
+            if i1 == m:
+                return nums2[i2 + k - 1]
+            if i2 == n:
+                return nums1[i1 + k - 1]
+            if k == 1:
+                return min(nums1[i1], nums2[i2])
+
+            i1_ = min(i1 + k // 2 - 1, m - 1)
+            i2_ = min(i2 + k // 2 - 1, n - 1)
+            pivot1, pivot2 = nums1[i1_], nums2[i2_]
+            if pivot1 <= pivot2:
+                k -= i1_ - i1 + 1
+                i1 = i1_ + 1
+            else:
+                k -= i2_ - i2 + 1
+                i2 = i2_ + 1

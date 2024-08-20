@@ -352,3 +352,36 @@ class Solution:
 
     # 74.搜索二维矩阵
     # 略
+
+    # 34.在排序数组中查找元素的第一个和最后一个位置
+    # 略
+
+    # 33.搜索旋转排序数组
+    # 旋转排序数组是指有序数组在某个位置断开并前后两段交换位置
+    # 仍然按照二分搜索的思路来处理
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return -1
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            mid = (l + r) // 2
+            if nums[mid] == target:
+                return mid
+            # 判断前半段是否有序
+            if nums[0] <= nums[mid]:
+                # 目标在有序部分中，继续按二分查找的方法进行
+                if nums[0] <= target < nums[mid]:
+                    r = mid - 1
+                # 目标在后半段无序部分，重复之前的思路
+                else:
+                    l = mid + 1
+            # 前半段无序，则后半段是有序的
+            else:
+                if nums[mid] < target <= nums[len(nums) - 1]:
+                    l = mid + 1
+                else:
+                    r = mid - 1
+        return -1
+
+    # 153.寻找旋转排序数组中的最小值
+    # 略
