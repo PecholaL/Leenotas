@@ -298,3 +298,25 @@ class Solution:
             else:
                 k -= i2_ - i2 + 1
                 i2 = i2_ + 1
+
+    # 763.划分字母区间
+    # 要求：把给定字符串划分为尽可能多的片段，同一字母最多出现在一个片段中
+    # 贪心策略
+    def partitionLabels(self, s: str) -> List[int]:
+        res = 0
+        # 记录每个字母在字符串中出现的最后位置
+        lastPos = [0] * 26
+        for i, ch in enumerate(s):
+            lastPos[ord(ch) - ord("a")] = i
+        # 开始从头划分
+        res = []
+        start, end = 0, 0
+        for i, ch in enumerate(s):
+            # 对于第i个字符ch，其应在当前字符串中
+            # 且ch在s中出现的最后位置应该不大于当前字符串的end
+            end = max(end, lastPos[ord(ch) - ord("a")])
+            # 贪心策略：当处理的字符追上了end，应立即切片，即更新start
+            if i == end:
+                res.append(end - start + 1)
+                start = end + 1
+        return res

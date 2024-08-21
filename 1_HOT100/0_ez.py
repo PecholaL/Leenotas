@@ -385,3 +385,35 @@ class Solution:
 
     # 153.寻找旋转排序数组中的最小值
     # 略
+
+    # 121.买卖股票的最佳时机
+    # 略
+
+    # 55.跳跃游戏
+    # 贪心算法，遍历过程中记录能到达的最远距离
+    def canJump(self, nums: List[int]) -> bool:
+        n, far = len(nums), 0
+        for i in range(n):
+            if i <= far:
+                # 当前能到达的距离：i+nums[i]
+                far = max(far, i + nums[i])
+                if far >= n - 1:
+                    return True
+        return False
+
+    # 45.跳跃游戏II
+    # 贪心算法有点绕，从前往后走
+    def jump(self, nums: List[int]) -> int:
+        # far是在当前步数的基础上、预期下一步能走到的最远距离
+        # end是当前已走过的所有步数能走到最远距离
+        far, end, res = 0, 0, 0
+        for i in range(len(nums) - 1):
+            # 下一步范围内的每一步能走到的最远距离
+            if i <= far:
+                far = max(far, i + nums[i])
+                # 走到了当前这些步数中能走到的最远距离
+                # 此时能确定需要再走一步，end更新为
+                if i == end:
+                    end = far
+                    res += 1
+        return res
