@@ -417,3 +417,34 @@ class Solution:
                     end = far
                     res += 1
         return res
+
+    # 70.爬楼梯
+    # 略，dp[n]=dp[n-1]+dp[n-2]
+
+    # 118.杨辉三角
+    # 略
+
+    # 198.打家劫舍
+    # 略，dp[i]=max(dp[i-1],dp[i-2]+nums[i])
+
+    # 279.完全平方数
+    # 求最少需要多少个完全平方数的加和等于n
+    # dp[i]=1+min(dp[i-j**2]), j in [1,square(i)]
+    # 相当于每次从i中减去一个完全平方数j**2得到子问题dp[i-j**2]
+    # 结果为子问题的结果加1（即起初抛开的j**2）
+    def numSquares(self, n: int) -> int:
+        dp = [0] * (n + 1)
+        for i in range(1, n + 1):
+            tmp = float("inf")
+            j = 1
+            while j**2 <= i:
+                tmp = min(tmp, dp[i - j**2])
+                j += 1
+            dp[i] = tmp + 1
+        return dp[n]
+
+    # 322.零钱交换
+    # 略，dp[i]=min(dp[i-coins[j]]+1), j in [0,len(coins))
+
+    # 139.单词拆分
+    # 略，dp[i]=dp[i-j] and s[i-j:i] in wordDict. j in [minWordLen,maxWordLen]
