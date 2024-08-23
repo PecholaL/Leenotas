@@ -448,3 +448,6 @@ class Solution:
 
     # 139.单词拆分
     # 略，dp[i]=dp[i-j] and s[i-j:i] in wordDict. j in [minWordLen,maxWordLen]
+
+    # 5.最长回文子串
+    # 略，二维动态规划，dp[i][j]=True表示s[i:j]是回文串，dp[i][j]=dp[i+1][j-1] and s[i]==s[j]
