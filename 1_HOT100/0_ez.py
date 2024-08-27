@@ -449,5 +449,33 @@ class Solution:
     # 139.单词拆分
     # 略，dp[i]=dp[i-j] and s[i-j:i] in wordDict. j in [minWordLen,maxWordLen]
 
+    # 300.最长递增子序列
+    # dp[i]表示以nums[i]结尾的最长递增子序列的长度
+    # dp[i]=max(dp[j])+1, j<=i and nums[j]<nums[i]
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = [1] * len(nums)
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
+
+    # 152.乘积最大子数组
+    # dpmax[i]/dpmin[i]表示以nums[i]结尾的乘积最大/最小的子数组的乘积
+    # 因为要考虑负数，当nums[i]是负数时，dpmax[i]应来自dpmin[i-1]（如果也为负）与nums[i]之积
+    def maxProduct(self, nums: List[int]) -> int:
+        dpmax, dpmin = [0] * len(nums), [0] * len(nums)
+        dpmax[0], dpmin[0] = nums[0], nums[0]
+        for i in range(1, len(nums)):
+            dpmax[i] = max(dpmax[i - 1] * nums[i], max(nums[i], dpmin[i - 1] * nums[i]))
+            dpmin[i] = min(dpmin[i - 1] * nums[i], min(nums[i], dpmax[i - 1] * nums[i]))
+        return max(dpmax)
+
+    # 62.不同路径
+    # 略，二维动态规划，dp[i][j]=dp[i-1][j]+dp[i][j-1]
+
+    # 64.最小路径和
+    # 略，二维动态规划，dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i][j]
+
     # 5.最长回文子串
     # 略，二维动态规划，dp[i][j]=True表示s[i:j]是回文串，dp[i][j]=dp[i+1][j-1] and s[i]==s[j]

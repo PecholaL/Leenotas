@@ -97,3 +97,37 @@ class Solution:
                 res = max(res, (right - left + 1) * heights[cur])
             stack.append(i)
         return res
+
+    # 416.分割等和子串
+    # 子串不要求在原数组中连续
+    def canPartition(self, nums: List[int]) -> bool:
+        n = len(nums)
+        if n < 2:
+            return False
+        total = sum(nums)
+        maxNum = max(nums)
+        if total & 1:
+            return False
+
+        target = total // 2
+        if maxNum > target:
+            return False
+        # 动态规划二维数组dp
+        # dp[i][j]表示nums[0:i]中是否存在和为j的子串
+        # （最终目标是求nums[0:len(nums)]中是否存在和为target的子串）
+        # i,j>0时，dp[i][j]=dp[i-1][j]|dp[i-1][j-nums[i]], j>=nums[i]
+        # dp[i][j]=dp[i-1][j], j<nums[i]
+        dp = [[False] * (target + 1) for _ in range(n)]
+        for i in range(n):
+            dp[i][0] = True
+
+        dp[0][nums[0]] = True
+        for i in range(1, n):
+            num = nums[i]
+            for j in range(1, target + 1):
+                if j >= num:
+                    dp[i][j] = dp[i - 1][j] | dp[i - 1][j - num]
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+        return dp[n - 1][target]

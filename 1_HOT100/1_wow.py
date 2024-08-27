@@ -320,3 +320,24 @@ class Solution:
                 res.append(end - start + 1)
                 start = end + 1
         return res
+
+    # 32.最长有效括号串长度
+    # dp[i]表示以s[i]结尾的最长有效括号串长度
+    def longestValidParentheses(self, s: str) -> int:
+        if len(s) == 0:
+            return 0
+        dp = [0] * len(s)
+        for i in range(1, len(s)):
+            if s[i] == ")":  # s[i]=='('时则无法作为有效括号串结尾，dp[i]为0
+                # 前一位为'('，末尾两位'()'䏻增加2位有效串长度
+                if s[i - 1] == "(":
+                    dp[i] = dp[i - 2] + 2 if i >= 2 else 2
+                # 前一位为')'，如果前一位结尾的有效串之前一位(s[i-dp[i-1]-1])为'('，则可为有效串长度增加2位
+                # （将以s[i-1]结尾的有效串扩起来的情形）
+                elif i - dp[i - 1] > 0 and s[i - dp[i - 1] - 1] == "(":
+                    dp[i] = (
+                        dp[i - 1] + dp[i - dp[i - 1] - 2] + 2
+                        if i - dp[i - 1] >= 2
+                        else dp[i - 1] + 2
+                    )
+        return max(dp)
