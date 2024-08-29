@@ -288,7 +288,6 @@ class Solution:
                 return nums1[i1 + k - 1]
             if k == 1:
                 return min(nums1[i1], nums2[i2])
-
             i1_ = min(i1 + k // 2 - 1, m - 1)
             i2_ = min(i2 + k // 2 - 1, n - 1)
             pivot1, pivot2 = nums1[i1_], nums2[i2_]
@@ -341,3 +340,91 @@ class Solution:
                         else dp[i - 1] + 2
                     )
         return max(dp)
+
+    # 1143.最长公共子序列
+    # 子序列不要求相邻，字母顺序与母序列一致即可
+    # 二维动态规划，dp[i][j]表示s1[0:i]与s2[0:j]最长公共子序列的长度
+    # 目标即求dp[len(s1)][len(s2)]，注意i或j为0时其中一个子序列为空
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        l1, l2 = len(text1), len(text2)
+        # 初始化dp，i或j为0时dp为0，不需再进行更改
+        dp = [[0] * (l2 + 1) for _ in range(l1 + 1)]
+        for i in range(1, l1 + 1):
+            for j in range(1, l2 + 1):
+                # 注意i和j是右开区间的右边界，每次比较的子序列末尾字母下标为i-1和j-1
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                else:
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+        return dp[-1][-1]
+
+    # 72.编辑距离
+    # 将word1通过\替换\插入\删除转为word2的最少操作步数
+    # 二维动态规划，与上一题类似
+    def minDistance(self, word1: str, word2: str) -> int:
+        l1, l2 = len(word1), len(word2)
+        dp = [[0] * (l2 + 1) for _ in range(l1 + 1)]
+        # 边界情况，i或j为0，即其中一个为空串，需要另一个串长度次的插入或删除操作
+        for i in range(l1 + 1):
+            dp[i][0] = i
+        for j in range(l2 + 1):
+            dp[0][j] = j
+        # 一般情况
+        for i in range(1, l1 + 1):
+            for j in range(1, l2 + 1):
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    # 注意有三种先行可能，都需要通过一次替换操作到当前情形，取操作数最少的那种
+                    dp[i][j] = min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]) + 1
+        return dp[-1][-1]
+
+    # 39.组合总和
+    # 可重复选择candidates中的数
+    # 回溯法
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        combine = []
+        self.dfs(candidates, target, res, combine, 0)
+        return res
+
+    def dfs(self, candidates, target, res, combine, idx):
+        # 递归终止条件：遍历完candidates中的数
+        if idx == len(candidates):
+            return
+        if target == 0:
+            res.append(combine)
+            return
+        # 不选择当前的数，注意combine要传拷贝
+        self.dfs(candidates, target, res, combine[:], idx + 1)
+        # 选择当前的数（前提是选择之后总和不会超出target）
+        if target - candidates[idx] >= 0:
+            combine.append(candidates[idx])
+            self.dfs(candidates, target - candidates[idx], res, combine[:], idx)
+            # 回退
+            combine = combine[:-1]
+
+    # 131.分割回文串
+    # 回溯+动态规划
+    def partition(self, s: str) -> List[List[str]]:
+        n = len(s)
+        # dp[i][j]表示s[i:j+1]是回文串
+        dp = [[True] * n for _ in range(n)]
+        for i in range(n - 1, -1, -1):
+            for j in range(i + 1, n):
+                dp[i][j] = (s[i] == s[j]) and dp[i + 1][j - 1]
+        res = []
+        ans = []
+
+        def dfs(i):
+            if i == n:
+                res.append(ans[:])
+                return
+            for j in range(i, n):
+                if dp[i][j]:
+                    ans.append(s[i : j + 1])
+                    dfs(j + 1)
+                    ans.pop()
+
+        dfs(0)
+        return res

@@ -131,3 +131,111 @@ class Solution:
                     dp[i][j] = dp[i - 1][j]
 
         return dp[n - 1][target]
+
+    # 46.全排列
+    # 回溯法
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        def backtrack(first=0):
+            if first == n:
+                # 将当前nums的拷贝存入res，如果不拷贝，后续nums改变会导致res中之前的结果也改变
+                res.append(nums[:])
+            for i in range(first, n):
+                nums[first], nums[i] = nums[i], nums[first]
+                backtrack(first + 1)
+                nums[first], nums[i] = nums[i], nums[first]
+
+        n = len(nums)
+        res = []
+        backtrack()
+        return res
+
+    # 78.子集
+    # 求元素各不相同的数组的所有子集
+    # 每一位元素对应一个bit的掩码，每位掩码的0或1表示该元素是否在子集中
+    # 一共有2^n种掩码（即0~2^n-1的二进制数），对应2^n个子集
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        n = len(nums)
+        for mask in range(2**n):
+            tmp = []
+            # 根据当前掩码确定当前子集包含哪些元素
+            for i in range(n):
+                if mask & (2**i):
+                    tmp.append(nums[i])
+            res.append(tmp)
+        return res
+
+    # 79.单词搜索
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+        def check(i: int, j: int, k: int) -> bool:
+            # 结束条件：当前位置与单词第k个字母不同/已完成单词搜索
+            if board[i][j] != word[k]:
+                return False
+            if k == len(word) - 1:
+                return True
+
+            visited.add((i, j))
+            result = False
+            for di, dj in directions:
+                newi, newj = i + di, j + dj
+                if 0 <= newi < len(board) and 0 <= newj < len(board[0]):
+                    if (newi, newj) not in visited:
+                        if check(newi, newj, k + 1):
+                            result = True
+                            break
+            # 回退
+            visited.remove((i, j))
+            return result
+
+        h, w = len(board), len(board[0])
+        visited = set()
+        # 将所有位置依次作为起点
+        for i in range(h):
+            for j in range(w):
+                if check(i, j, 0):
+                    return True
+        return False
+
+    # 51.n皇后
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        # 根据当前row的设置生成符合条件的结果
+        def generateBoard():
+            board = []
+            for i in range(n):
+                row[queens[i]] = "Q"
+                board.append("".join(row))
+                row[queens[i]] = "."
+            return board
+
+        def backtrack(row):
+            # 结束当前搜索的条件：已指定最后一行中皇后的位置
+            if row == n:
+                board = generateBoard()
+                res.append(board)
+            else:
+                # 对一行中每个位置进行试探，看列和对角是否与其他皇后共线
+                for i in range(n):
+                    if i in columns or row - i in diagonal1 or row + i in diagonal2:
+                        continue
+                    queens[row] = i
+                    columns.add(i)
+                    # 对角线冲突判断：
+                    # 对角线上row与i之差（左上到右下方向）是相同的
+                    diagonal1.add(row - i)
+                    # 对角线上row与i之和（左下到右上方向）是相同的
+                    diagonal2.add(row + i)
+                    backtrack(row + 1)
+                    diagonal2.remove(row + i)
+                    diagonal1.remove(row - i)
+                    columns.remove(i)
+
+        res = []
+        queens = [-1] * n
+        columns = set()
+        diagonal1 = set()
+        diagonal2 = set()
+        row = ["."] * n
+        backtrack(0)
+        return res

@@ -479,3 +479,25 @@ class Solution:
 
     # 5.最长回文子串
     # 略，二维动态规划，dp[i][j]=True表示s[i:j]是回文串，dp[i][j]=dp[i+1][j-1] and s[i]==s[j]
+
+    # 17.电话号码的字母组合
+    # 略，构造掩码
+
+    # 22.括号生成
+    # 生成所有包含n对括号的字符串
+    def generateParenthesis(self, n: int) -> List[str]:
+        self.res = []
+        self.dfs("", n, n)
+        return self.res
+
+    # left和right分别为剩余左右括号的数量
+    def dfs(self, tmp, left, right):
+        # 剩余的左括号比右括号更多时无法构成有效括号串
+        # 即当前串中右括号更多
+        if left < 0 or left > right:
+            return
+        if left == 0 and right == 0:
+            self.res.append(tmp)
+        # 给当前串添加一个左括号或右括号，并继续深度搜索
+        self.dfs(tmp + "(", left - 1, right)
+        self.dfs(tmp + ")", left, right - 1)
